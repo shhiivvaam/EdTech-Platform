@@ -39,7 +39,7 @@ const CodeBlocks = ({
             <div className='h-fit flex flex-row text-[10px] w-[100%] py-4 lg:w-[500px]'>
                 {/* // TODO: Gradient Color lagana hai */}
                 {/* BG Gradient */}
-
+                {backgroundGradient}
                 <div className='text-center flex flex-col w-[10%] text-richblack-400 font-inter font-bold'>
                     <p>1</p>
                     <p>2</p>

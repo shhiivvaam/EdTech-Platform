@@ -36,26 +36,36 @@ const TimelineSection = () => {
                 <div className='w-[45%] flex flex-col gap-5'>
                     {
                         timeline.map((element, index) => {
-                            return(
+                            return (
                                 <div key={index} className='flex flex-col gap-6'>
-                                    {/* // TODO :  justify-center  neeche wala */}
                                     {/* //TODO : image k neeche dotted lines bhi add krni ha */}
-                                    <div className='w-[50px] h-[50px] bg-white flex items-center'>
-                                        <img src={element.Logo} alt=''/>
+                                    <div className="flex gap-6" key={index}>
+                                    {/* // TODO :  justify-center  neeche wala */}
+                                        <div className='w-[50px] h-[50px] bg-white flex items-center'>
+                                            <img src={element.Logo} alt='' />
+                                        </div>
+                                        <div>
+                                            <h2 className='font-semibold text-[18px]'>{element.Heading}</h2>
+                                            <p className='text-base'>{element.description}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h2 className='font-semibold text-[18px]'>{element.Heading}</h2>
-                                        <p className='text-base'>{element.description}</p>
+                                    <div 
+                                        className={`
+                                            hidden 
+                                            ${timeline.length - 1 === index ? "hidden" : "lg:block"}  
+                                            h-14 border-dotted border-r border-richblack-100 bg-richblack-400/0 w-[26px] 
+                                        `}
+                                    >
                                     </div>
                                 </div>
                             );
-                        } )
+                        })
                     }
                 </div>
 
-                <div className='relative shadow-blue-200'>
+                <div className='relative shadow-blue-200 shadow-[0px_0px_30px_0px]'>
                     {/* // TODO : add shadow behind the image and add some attractive effects */}
-                    <img src={timelineImage} alt='' className='shadow-white object-cover h-fit'/>
+                    <img src={timelineImage} alt='' className='shadow-white shadow-[0px_0px_30px_0px] object-cover h-fit' />
 
                     {/* green section */}
                     <div className='absolute bg-caribbeangreen-700 flex flex-row text-white uppercase py-7 left-[50%] translate-x-[-50%] translate-y-[-50%]'>

@@ -50,8 +50,10 @@ const Home = () => {
 
                 {/* video */}
                 {/* // TODO : video k around shadow lagani ha */}
-                <div className='mx-3 my-12 shadow-blue-200'>
-                    <video muted loop autoPlay>
+                <div className='mx-3 my-12 shadow-[10px_-5px_50px_-5px] shadow-blue-200'>
+                    <video muted loop autoPlay
+                        className='shadow-[20px_20px_rgba(255,255,255)]'
+                        >
                         <source src={Banner} type='video/mp4' />
                     </video>
                 </div>
@@ -115,6 +117,10 @@ const Home = () => {
                             <a href="three/">Three</a>
                             </nav>`
                         }
+                        backgroundGradient={
+                            <div className="codeblock1 absolute">
+                            </div>
+                        }
                     />
                 </div>
 
@@ -127,7 +133,7 @@ const Home = () => {
                             <div className="text-4xl font-semibold">
                                 Start
                                 <HightlightText text={"coding in seconds."} />
-                                wth our Online Courses.
+                                with our Online Courses.
                             </div>
                         }
                         subheading={
@@ -162,7 +168,6 @@ const Home = () => {
                         // <a href="three/">Three</a>\n
                         // </nav>`
                         codeblock={
-
                             `<!DOCTYPE html>
                             <html>
                             <head>
@@ -176,6 +181,10 @@ const Home = () => {
                             <a href="two/">Two</a>
                             <a href="three/">Three</a>
                             </nav>`
+                        }
+                        backgroundGradient={
+                            <div className="codeblock2 absolute">
+                            </div>
                         }
                     />
                 </div>
