@@ -294,7 +294,7 @@ exports.changePassword = async (req, res) => {
         }
 
         // mactching the newpassword and the confirmPassword
-        if(newPassword != confirmPassword) {
+        if(newPassword !== confirmPassword) {
             return res.status(401).json({
                 success: false,
                 message: 'This entered new Password and Confirm Password does not match!!'
