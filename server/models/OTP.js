@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const mailSender = require('../utils/mailSender')
+const { otpTemplate } = require('../mail/templates/emailVerificationTemplate');
 
 const OTPSchema = new mongoose.Schema({
     email: {
@@ -22,8 +23,8 @@ const OTPSchema = new mongoose.Schema({
 //? it is basically for the verification of the user's email, that is we will send the email verification link and if it comes true, then only we will register the user in the database
 async function sendVerificationEmail(email, otp) {
     try {
-        const title = `Verification Email from StudyNotion`;
-        const mailResponse = await mailSender(email, title, otp);
+        const title = `Verification Email from shhiivaam`;
+        const mailResponse = await mailSender(email, title, otpTemplate(otp));
         console.log('Email Sent Successfully', mailResponse);
 
     } catch (error) {
@@ -33,10 +34,12 @@ async function sendVerificationEmail(email, otp) {
     }
 }
 
-OTPSchema.pre('save', async function (next) {                         // here pre-save means that OTP is sended before saving to OTP Schema
+OTPSchema.pre('save', async function (next) { 
+    // here pre-save means that OTP is sended before saving to OTP Schema
     if (this.isNew) {
         await sendVerificationEmail(this.email, this.otp);
     }
+
     next();
 })
 

@@ -7,7 +7,7 @@ const { createCourse, getAllCourses, getCourseDetails, getFullCourseDetails, edi
 
 
 // Categories Controllers Import
-const { showAllCategories, createCategory, categoryPageDetails } = require("../controllers/Category")
+const { showAllCategory, createCategory, categoryPageDetails } = require("../controllers/Category")
 
 // Sections Controllers Import
 const { createSection, updateSection, deleteSection } = require("../controllers/Section")
@@ -28,7 +28,7 @@ const { auth, isInstructor, isStudent, isAdmin } = require("../middlewares/auth"
 // ********************************************************************************************************
 
 // Courses can Only be Created by Instructors
-router.post("/createCourse", auth, isInstructor || isAdmin, createCourse)
+router.post("/createCourse", auth, isInstructor || isAdmin , createCourse)
 //Add a Section to a Course
 router.post("/addSection", auth, isInstructor, createSection)
 // Update a Section
@@ -62,7 +62,7 @@ router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);
 // Category can Only be Created by Admin
 // TODO: Put IsAdmin Middleware here
 router.post("/createCategory", auth, isAdmin, createCategory)
-// router.get("/showAllCategories", showAllCategories)
+router.get("/showAllCateogries", showAllCategory)
 router.post("/getCategoryPageDetails", categoryPageDetails)
 
 // ********************************************************************************************************

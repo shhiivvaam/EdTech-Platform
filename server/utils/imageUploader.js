@@ -17,9 +17,9 @@ exports.uploadImageToCloudinary = async(file, folder, height, quality) => {
         console.log('Something occured while uploading Image to Cloudinary');
         console.log(error.message);
         console.log(error);
-        return res.status(500).json({
-            success: false,
-            message: 'Something occured while uploading Image to Cloudinary',
-        })
+        // return res.status(500).json({
+        //     success: false,
+        //     message: 'Something occured while uploading Image to Cloudinary',
+        // })
     }
 }

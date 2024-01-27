@@ -16,13 +16,17 @@ exports.createSubSection = async (req, res) => {
         // 7. return response
 
         // 1
+        // TODO : check if the timeDuration field is a valid one
         const { sectionId, title, description } = req.body;
+        // const { sectionId, title, timeDuration , description } = req.body;
 
         // 2
         const video = req.files.videoFile;
 
         // 3
+        // TODO : check if the timeDuration field is a valid one
         if (!sectionId || !title || !description || !video) {
+        // if (!sectionId || !title || !timeDuration || !description || !video) {
             return res.status(400).json({
                 success: false,
                 message: `All fields are Required!!`
@@ -36,6 +40,7 @@ exports.createSubSection = async (req, res) => {
         const subSectionDetails = await SubSection.create({
             title: title,
             // timeDuration: timeDuration,
+            // TODO: check for this timeDuration field
             timeDuration: `${uploadDetails.duration}`,
             description: description,
             videoUrl: uploadDetails.secure_url,
@@ -46,7 +51,7 @@ exports.createSubSection = async (req, res) => {
             { _id: sectionId },
             {
                 $push: {
-                    subSections: subSectionDetails._id,
+                    subSection: subSectionDetails._id,
                 }
             },
             { new: true },

@@ -8,7 +8,7 @@ const initialState = {
         null,
 }
 
-const profileSlice = createSlice({
+const authSlice = createSlice({
     name: "auth",
     initialState: initialState,
     reducers: {
@@ -18,5 +18,5 @@ const profileSlice = createSlice({
     }
 });
 
-export const { setToken } = profileSlice.actions;
-export default profileSlice.reducer;
+export const { setToken } = authSlice.actions;
+export default authSlice.reducer;

@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 require("dotenv").config();
-const User = require('../models/User')
 
 // auth
 exports.auth = async (req, res, next) => {
@@ -20,7 +19,7 @@ exports.auth = async (req, res, next) => {
 
         // verify the token
         try {
-            const decode = await jwt.verify(token, process.env.JWT_SECRET);
+            const decode = jwt.verify(token, process.env.JWT_SECRET);
             console.log(decode);
             req.user = decode;
         } catch(error) {
@@ -73,6 +72,8 @@ exports.isInstructor = async(req, res, next) => {
             })
         }
 
+        next();
+
     } catch(error) {
         console.log(`Something occured in MiddleWare - isInstructor` , error.message);
         console.log(error);
@@ -94,6 +95,8 @@ exports.isAdmin = async(req, res, next) => {
                 message: `This is a Protected Route for Admin Only`,
             })
         }
+
+        next();
 
     } catch(error) {
         console.log(`Something occured in MiddleWare - isAdmin` , error.message);

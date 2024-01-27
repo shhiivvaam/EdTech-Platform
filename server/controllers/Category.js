@@ -44,16 +44,16 @@ exports.createCategory = async (req, res) => {
 
 // getAllTags Handler Function
 // TODO: unable to show all th Cateogries -> their might be some problem with the Course -> Category Route
-exports.showAllcateogry = async (req, res) => {
+exports.showAllCategory = async (req, res) => {
     try {
         // filtering tags not on the basis of any criteria, but just returning tags that must have its name and description present
-        // const allCategory = await Category.find({}, { name: true, description: true });
-        const allCategory = await Category.find({});
+        const allCategory = await Category.find({}, { name: true, description: true });
+        // const allCategory = await Category.find({});
 
         res.status(200).json({
             success: true,
             message: `All tags returned Successfully.`,
-            allCategory,
+            data: allCategory,
         })
 
     } catch (error) {
@@ -112,6 +112,8 @@ exports.categoryPageDetails = async (req, res) => {
                 message: `No courses found for the Selected Category`,
             })
         }
+
+        const selectedCourses = selectedCategory.courses;
 
         // Get Courses for other Categories
         const categoriesExpectSelected = await Category.find({

@@ -3,6 +3,8 @@ const mailSender = require('../utils/mailSender');
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 
+const { passwordUpdated } = require('../mail/templates/passwordUpdate')
+
 // resetPasswordToken   -> will handle Password Change Mail Sending
 exports.resetPasswordToken = async (req, res) => {
     try {
@@ -27,7 +29,7 @@ exports.resetPasswordToken = async (req, res) => {
         }
 
         // 3
-        // const token = crypto.randomUUID();
+        // const token = crypto.randomUUID();                 // TODO : check for the usage support of this { randomUUID() }
         const token = crypto.randomBytes(20).toString("hex");
 
         // 4
@@ -74,6 +76,8 @@ exports.resetPassword = async (req, res) => {
         // 8.return response
 
         // 1
+
+        //* here we have taken the token from the req body, but in actual the token is generated from the { resetPasswordToken function } and is passed in the url so basically we should fetch this from        { req.params }, but the frontend is responsible for sending the token int the params, and since the frontend will receive the token, so we can use it as the { req body } with the help of the frontend 
         const { password, confirmPassword, token } = req.body;
 
         // 2
@@ -96,7 +100,7 @@ exports.resetPassword = async (req, res) => {
         }
 
         //5
-        if (userDetails.resetPasswordExpires > Date.now()) {
+        if (userDetails.resetPasswordExpires < Date.now()) {            // it means that the resetPasswordExpires time is now expired that is basically generated to keen track of the token time for the { resetPasswordToken }, and so it the resetPasswordExpires time is greater than the current time, means we should now not consider the resetPasswordToken for further Password Reset Process.
             return res.json({
                 success: false,
                 message: `Token is expired!! Plese Regenerste your Token`
@@ -108,10 +112,13 @@ exports.resetPassword = async (req, res) => {
 
         // 7
         await User.findOneAndUpdate(
-            { token: token },
-            { password: hashedPassword },
+            { token: token },        // this is the searching criteria, which is resposible for finding the particular user for which this password reset req is generated
+            { password: hashedPassword },         // updating the password in the User's entry
             { new: true },
         )
+
+        // Password Updated Successully Email
+        await mailSender(userDetails.email, `Password Reset Successfull - shhiivvaam`, passwordUpdated(userDetails.email, userDetails.firstName + " " + userDetails.lastName));
 
         // 8
         return res.status(200).json({

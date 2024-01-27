@@ -14,8 +14,8 @@ exports.updateCourseProgress = async (req, res) => {
     
     if (!subsection) {
       console.log('Something occured in finding Subsection in updated Course Progress');
-      console.log(error.message);
-      console.log(error);
+      // console.log(error.message);
+      // console.log(error);
       return res.status(404).json({
         success: false,
         error: "Invalid subsection"
@@ -27,8 +27,8 @@ exports.updateCourseProgress = async (req, res) => {
 
     if (!courseProgress) {
       console.log('Something occured in finding courseProgress in updated Course Progress');
-      console.log(error.message);
-      console.log(error);                                              // If course progress doesn't exist, create a new one
+      // console.log(error.message);
+      // console.log(error);                                              // If course progress doesn't exist, create a new one
       return res.status(404).json({
         success: false,
         message: "Course progress Does Not Exist",

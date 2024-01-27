@@ -6,12 +6,13 @@ const userRoutes = require('./routes/User');
 const paymentRoutes = require('./routes/Payments');
 const courseRoutes = require('./routes/Course');
 const profileRoutes = require('./routes/Profile');
-const contactUsRoute = require("./routes/Contact");
+// const contactUsRoute = require("./routes/Contact");
 
 // MONGO DB
 const database = require('./config/database')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const colors = require('colors');
 
 // CLOUDINARY
 const { cloudinaryConnect } = require('./config/cloudinary');
@@ -54,11 +55,11 @@ app.use('/api/v1/payment', paymentRoutes);
 app.get('/', (req, res) => {
     return res.json({
         success: true, 
-        message: `We are now Connected!!   StudyNotion`,
+        message: `We are now Connected!!   shhiivvaam`,
     })
 })
 
 app.listen(PORT, () => {
-    console.log(`Application is running Successfully on: ${PORT}`);
+    console.log(`Application is running Successfully on: ${PORT}`.bgGreen);
 })
 

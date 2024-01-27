@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-hot-toast';
+// import { toast } from 'react-hot-toast';
 
 const initialState = {
     totalItems: localStorage.getItem("totalItems")
@@ -13,7 +13,7 @@ const cartSlice = createSlice({
     name: "cart",
     initialState: initialState,
     reducers: {
-        setToken(state, value){
+        setTotalItems(state, value){
             state.token = value.payload;
         },
         // TODO: add to cart function
@@ -22,5 +22,5 @@ const cartSlice = createSlice({
     }
 });
 
-export const {setToken} = cartSlice.actions;
+export const { setTotalItems } = cartSlice.actions;
 export default cartSlice.reducer;

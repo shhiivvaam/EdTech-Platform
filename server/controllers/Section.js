@@ -36,7 +36,7 @@ exports.createSection = async (req, res) => {
             },
             { new: true },
         )
-        populate(
+        .populate(
             {
                 path: "courseContent",
                 populate: {
@@ -130,8 +130,11 @@ exports.deleteSection = async (req, res) => {
         // 3. return reponse
 
         // 1
+        
+        // TODO : assuming that the seciton Id will be present with the response of the frontend -> If not make it with the { req.params }
         // const {sectionId} = req.params;
         const { sectionId, courseId } = req.body;
+        // const { courseId } = req.body;
 
         // 2
         await Course.findByIdAndUpdate(

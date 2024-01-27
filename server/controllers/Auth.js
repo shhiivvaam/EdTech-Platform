@@ -37,7 +37,7 @@ exports.sendOTP = async (req, res) => {
         });
         console.log('OTP Generated: ', otp);
 
-
+        // TODO : remove the below code of finding the otp again and again in the Database, for maintaining its authenticity and uniqueness, use some third party things, that make sure to generate some random and unique otp always, so we need not to chek the otp database whole time, because this impacts the performance
         // check unique OTP or not
         let result = await OTP.findOne({ otp: otp });
         // while unable to find unique OTP, continue generation
@@ -132,13 +132,13 @@ exports.signUp = async (req, res) => {
         console.log(recentOtp);
 
         // 6
-        if (recentOtp.length === 0) {
+        if (recentOtp.length === 0) {        // TODO:  check for  { == } > behaving inappropriate
             // OTP not found
             return res.status(400).json({
                 success: false,
-                message: `OTP not Found!!`
+                message: `The OTP is not Valid!!`
             });
-        } else if (recentOtp[0].otp !== otp) {
+        } else if (recentOtp[0].otp !== otp) {  // TODO:  check for recentOtp.otp > behaving inappropriate
             // Invalid OTP
             return res.status(400).json({
                 success: false,
@@ -225,7 +225,7 @@ exports.login = async (req, res) => {
                 email: user.email,
                 id: user._id,
                 accountType: user.accountType,
-            }
+            }   
             const token = jwt.sign(payload, process.env.JWT_SECRET, {
                 expiresIn: "24h",
             })
@@ -261,7 +261,7 @@ exports.login = async (req, res) => {
             message: 'Login Failed. Please try Again!!'
         })
     }
-}   
+}
 
 // changePassword
 exports.changePassword = async (req, res) => {
@@ -294,7 +294,7 @@ exports.changePassword = async (req, res) => {
         }
 
         // mactching the newpassword and the confirmPassword
-        if(newPassword !== confirmPassword) {
+        if (newPassword !== confirmPassword) {
             return res.status(401).json({
                 success: false,
                 message: 'This entered new Password and Confirm Password does not match!!'
@@ -331,7 +331,7 @@ exports.changePassword = async (req, res) => {
         }
 
         // Return success response
-        return res.status(200).json({ 
+        return res.status(200).json({
             success: true,
             message: "Password updated successfully"
         })

@@ -30,7 +30,7 @@ exports.updateProfile = async (req, res) => {
         const id = req.user.id;
 
         // 3
-        // if(!contactNumber || !gender || !id) {
+        // if(!about || !contactNumber || !id) {
         //     return res.status(400).json({
         //         success: false,
         //         message: `All fields are required. Please fill all the details Carefully!!`,

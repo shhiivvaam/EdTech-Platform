@@ -14,33 +14,43 @@ require("dotenv").config();
 // Course Creation Handler Function
 exports.createCourse = async (req, res) => {
     try {
-
         // fetch all the data
         const userId = req.user.id;
-        const { courseName, courseDescription, whatYouWillLearn, price, tag: _tag, category, status, instructions: _instructions } = req.body;
-
+        
+        // TODO : check for the code working conditions, on the updated version and, re-initialize if not working
+        // TODO : 1
+        // const { courseName, courseDescription, whatYouWillLearn, price, tag: _tag, category, status, instructions: _instructions } = req.body;
+        const { courseName, courseDescription, whatYouWillLearn, price, tag, category } = req.body;
+        
         // get thumbnail
         const thumbnail = req.files.thumbnailImage;
-
-        const tag = JSON.parse(_tag);
-        const instructions = JSON.parse(_instructions);
-
+        
+        // TODO : 2
+        // const tag = JSON.parse(_tag);
+        // TODO : 3
+        // const instructions = JSON.parse(_instructions);
+        
         // validation
-        if (!courseName || !courseDescription || !whatYouWillLearn || !price || !tag.length || !thumbnail || !category || !instructions.length) {
-            return res.status(400).json({
-                success: false,
-                message: `All fields are Required!!`
-            })
-        }
-        if (!status || status === undefined) {
-            status = "Draft"
-        }
-
-        // check is the user is an instructor
-        const instructorDetails = await User.findById(userId, { accountType: "Instructor" });
-        console.log(`Instructor Details: `, instructorDetails);
-        // TODO: verify that userId and instructorDetails._id are same or Different?
-
+        // TODO : 4
+        // if (!courseName || !courseDescription || !whatYouWillLearn || !price || !tag.length || !thumbnail || !category || !instructions.length) {
+            if (!courseName || !courseDescription || !whatYouWillLearn || !price || !thumbnail || !category) {
+                return res.status(400).json({
+                    success: false,
+                    message: `All fields are Required!!`
+                })
+            }
+            
+            // TODO : 5
+            // if (!status || status === undefined) {
+                    // status = "Draft"
+                // }
+                
+                // check is the user is an instructor
+                // TODO : 6   -> accountType : "Instructor"
+                const instructorDetails = await User.findById(userId, { accountType: "Instructor" });
+                console.log(`Instructor Details: `, instructorDetails);
+                // TODO: verify that userId and instructorDetails._id are same or Different?
+                
         if (!instructorDetails) {
             return res.status(404).json({
                 success: false,
@@ -70,8 +80,8 @@ exports.createCourse = async (req, res) => {
             tag,
             category: categoryDetails._id,
             thumbnail: thumbnailImage.secure_url,
-            status: status,
-            instructions,
+            // status: status,
+            // instructions,
         })
 
         // add the new course to the User Schema of the Instructor
@@ -134,7 +144,8 @@ exports.getAllCourses = async (req, res) => {
         //     .exec();
 
         const allCourses = await Course.find(
-            { status: "Published" },
+            // TODO: check for the below conditions and uncomment if the constraint is to visible all the Pusblished Courses only
+            // { status: "Published" },
             {
                 courseName: true,
                 price: true,
@@ -189,6 +200,7 @@ exports.getCourseDetails = async (req, res) => {
                     path: "courseContent",
                     populate: {
                         path: "subSection",
+                        // TODO: below is not required, add if needed else leave
                         select: "videoUrl"
                     }
                 }

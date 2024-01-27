@@ -7,8 +7,10 @@ const crypto = require('crypto');
 // TODO: import course enrollement Template
 
 const { courseEnrollmentEmail } = require('../mail/templates/courseEnrollmentEmail')
-const { default: mongoose } = require('mongoose');
+const { mongoose } = require('mongoose');
 const { paymentSuccessEmail } = require('../mail/templates/paymentSuccessEmail');
+
+require('dotenv').config();
 
 // capture the payment and initiate the Razorpay order
 exports.capturePayment = async (req, res) => {
@@ -21,12 +23,14 @@ exports.capturePayment = async (req, res) => {
     // 7. return response
 
     // 1
+    // TODO : check for this, is this needed or not
     // const { course_id } = req.body;
     try {
         const userId = req.user.id;
         const { courses } = req.body;
 
         // 2
+        // TODO: check that is the below TODO for { course_id } works than this is not needed anymore   
         if (courses.length === 0) {
             return res.status(400).json({
                 success: false,
@@ -34,6 +38,7 @@ exports.capturePayment = async (req, res) => {
             })
         }
         // 3
+        // TODO: check for this, is this needed or not with the above import of { course_id }
         // if (!course_id) {
         //     return res.json({
         //         success: false,
@@ -118,7 +123,7 @@ exports.capturePayment = async (req, res) => {
 // verify Signature of RazorPay and Server  -> Handler Function
 exports.verifySignature = async (req, res) => {
     try {
-        const webhookSecret = "12345678";        //! server side webhookSecret
+        const webhookSecret = process.env.WEBHOOK_SECRET;        //! server side webhookSecret
 
         const signature = req.headers["x-razorpay-signature"]            //! secret from payment GateWay -> RazorPay
 
@@ -137,7 +142,7 @@ exports.verifySignature = async (req, res) => {
         const digest = shasum.digest("hex");
 
         // checking the hashed version provided by the razorpay in the req.header { signature } with the webhookSecret hashed that we performed above
-        if (signature == digest) {
+        if (signature === digest) {
             console.log(`Payment is Authorized`);
 
             //! Adding the user in the Desired Course and also creating an entry for the course in the User Course enrolled section 
@@ -179,7 +184,7 @@ exports.verifySignature = async (req, res) => {
                 //! Send the Confirmation Email
                 const emailResponse = await mailSender(
                     enrolledStudent.email,
-                    `Congratualtions! form shhiivvaam`,
+                    `Congratualtions! frOm shhiivvaam`,
                     `Congratulations! You have Successfully onboarded into the shhiivvaam Course`,
                 );
                 console.log(emailResponse);
@@ -200,8 +205,7 @@ exports.verifySignature = async (req, res) => {
         } else {
             // When Signature does not Match
 
-            console.log(`Payment Gateway Hashed Version and Secret Key Hashed Version, not Matched!!`, error.message);
-            console.log(error);
+            console.log(`Payment Gateway Hashed Version and Secret Key Hashed Version, not Matched!!`);
             return res.status(400).json({
                 success: false,
                 message: `Payment Gateway Hashed Version and Secret Key Hashed Version, not Matched!!`,
@@ -250,7 +254,7 @@ exports.verifyPayment = async (req, res) => {
         success: "false",
         message: "Payment Failed!! Something occured in Razorpay->  Verifying the Payment"
     });
-}
+}   
 
 // Send Payment Success Email
 exports.sendPaymentSuccessEmail = async (req, res) => {

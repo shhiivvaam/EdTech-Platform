@@ -39,6 +39,8 @@ exports.createRating = async (req, res) => {
             user: userId,
             course: courseId,
         })
+
+        // TODO: if wants to allow the user to submit the review more than once, remove the below validation { alreadyReviewed } code
         if(alreadyReviewed) {
             return res.status(403).json({
                 success: false,
@@ -94,15 +96,17 @@ exports.getAverageRating = async(req, res) => {
         const courseId = req.body.courseId;
 
         // 2
-        const result = await RatingAndReview.aggregate([
+        const result = await RatingAndReview.aggregate([              // aggregate -> helps to make more than one operations in sequentical manner
             {
                 $match: {                                                  // to find the matching object
                     course: new mongoose.Types.ObjectId(courseId),         // converting the String to Object Form
+                    // this course -> will contain that course, which matches the current course Id 
+                    // ansd we have used this new mongoose.Types.ObjectId type method because the course is a String type in the and noe we areconverting it to an Object Type and then will save in the Database
                 },
             },
             {
                 $group: {
-                    _id: null,
+                    _id: null,                      // making this { _id } null means that what all entries are comming in this section of code will be considered in a single group because of the { $group } which will be helpfull for getting the total Average Rating
                     averageRating: {$avg: "$rating"},
                 }
             }

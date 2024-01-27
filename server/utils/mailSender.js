@@ -11,7 +11,7 @@ const mailSender = async (email, title, body) => {
         })
 
         let info = await transporter.sendMail({
-            from: `StudyNotion || shhiivvaam`,
+            from: `shhiivvaam`,
             to: `${email}`,
             subject: `${title}`,
             html: `${body}`,
@@ -22,10 +22,12 @@ const mailSender = async (email, title, body) => {
         console.log('Something went wrong in mailSender');
         console.log(error.message);
         console.log(error);
-        return res.status(500).json({
-            success: false,
-            message: 'Something Occured in mailSender',
-        })
+        
+        // TODO: make this below accessible
+        // return res.status(500).json({
+            // success: false,
+            // message: 'Something Occured in mailSender',
+        // })
     }
 }
 
